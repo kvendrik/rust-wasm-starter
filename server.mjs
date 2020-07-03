@@ -8,9 +8,11 @@ import chalk from 'chalk';
 import {writeFileSync} from 'fs';
 import opn from 'opn';
 
+const srcPath = resolve('src');
+const staticPath = resolve('static');
+
 const port = process.env.PORT || 8080;
 const app = websockify(new Koa());
-const staticPath = resolve('static');
 const getUniqueSocketId = createUniqueIdFactory('socket');
 let currentWebsockets = [];
 
@@ -47,7 +49,7 @@ logInfo('Building app...');
 buildAppSync();
 
 logInfo('Setting up file watcher...');
-watch(resolve('src'), {recursive: true}, (_, filePath) => {
+watch(srcPath, {recursive: true}, (_, filePath) => {
   const infoMessage = `${filePath} changed. Recompiling...`;
   logInfo(infoMessage);
 

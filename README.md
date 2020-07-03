@@ -32,3 +32,4 @@ Or in one line, make sure to change `your-project-name` before running:
 
 - `PORT=3000 yarn server` allows you to start on a different port
 - `server.mjs` manages the dev experience and is fully customizable
+- The `build` command can be found in `package.json` and is used to compile the source files
