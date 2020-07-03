@@ -25,7 +25,7 @@ Or in one line, make sure to change `your-project-name` before running:
 ## What it does
 
 - Will listen on port `8080` and automatically open the page when you start the server
-- Automatically recompiles when files source files change
+- Automatically recompiles when source files change
 - Automatically reloads the page for you
 
 ## Customizing your dev experience
