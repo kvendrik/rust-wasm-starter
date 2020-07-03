@@ -9,10 +9,13 @@
   },
   "author": "Koen Vendrik <k.vendrik@gmail.com>",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "chalk": "^4.1.0",
     "koa": "^2.13.0",
     "koa-static": "^5.0.0",
-    "node-watch": "^0.6.4"
+    "koa-websocket": "^6.0.0",
+    "node-watch": "^0.6.4",
+    "opn": "^6.0.0"
   },
   "engines": {
     "node": ">13"
