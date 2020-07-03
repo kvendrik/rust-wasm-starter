@@ -25,7 +25,7 @@ app.ws.use((ctx, next) => {
 
   socket.on('close', () => {
     logInfo(`Closing socket ${socketId}`);
-    currentWebsockets = currentWebsockets.filter((id) => id !== socketId);
+    currentWebsockets = currentWebsockets.filter(({id}) => id !== socketId);
   });
 
   return next(ctx);
