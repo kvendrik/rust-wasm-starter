@@ -11,21 +11,21 @@ import opn from 'opn';
 const port = process.env.PORT || 8080;
 const app = websockify(new Koa());
 const staticPath = resolve('static');
+const getUniqueSocketId = createUniqueIdFactory('socket');
+let currentWebsockets = [];
 
 app.use(serve(staticPath));
 app.ws.use((ctx, next) => {
   logInfo('Client connected');
 
-  watch(resolve('src'), {recursive: true}, (_, filePath) => {
-    const infoMessage = `${filePath} changed. Recompiling...`;
-    logInfo(infoMessage);
-    ctx.websocket.send(
-      JSON.stringify({action: 'log', data: infoMessage})
-    );
-    buildAppSync();
-    ctx.websocket.send(
-      JSON.stringify({action: 'doReload', data: null})
-    );
+  const socket = ctx.websocket;
+  const socketId = getUniqueSocketId();
+
+  currentWebsockets.push({id: socketId, socket});
+
+  socket.on('close', () => {
+    logInfo(`Closing socket ${socketId}`);
+    currentWebsockets = currentWebsockets.filter((id) => id !== socketId);
   });
 
   return next(ctx);
@@ -46,6 +46,26 @@ webSocket.addEventListener('message', ({data}) => {
 logInfo('Building app...');
 buildAppSync();
 
+logInfo('Setting up file watcher...');
+watch(resolve('src'), {recursive: true}, (_, filePath) => {
+  const infoMessage = `${filePath} changed. Recompiling...`;
+  logInfo(infoMessage);
+
+  for (const {socket} of currentWebsockets) {
+    socket.send(
+      JSON.stringify({action: 'log', data: infoMessage})
+    );
+  }
+
+  buildAppSync();
+
+  for (const {socket} of currentWebsockets) {
+    socket.send(
+      JSON.stringify({action: 'doReload', data: null})
+    );
+  }
+});
+
 opn(`http://localhost:${port}`);
 
 app.listen(port);
@@ -61,4 +81,9 @@ function logSuccess(message) {
 
 function logInfo(message) {
   console.info(chalk.blue(message));
+}
+
+function createUniqueIdFactory(prefix) {
+  let index = 0;
+  return () => `${prefix}-${index++}`;
 }
