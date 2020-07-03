@@ -30,5 +30,5 @@ Or in one line, make sure to change `your-project-name` before running:
 
 ## Customizing your dev experience
 
-- `PORT="3000" yarn server` allows you to start on a different port
+- `PORT=3000 yarn server` allows you to start on a different port
 - `server.mjs` manages the dev experience and is fully customizable
