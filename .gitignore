@@ -1,5 +1,5 @@
 /target
 Cargo.lock
 /static/wasm
-/static/hot-reload.generated.js
+/static/live-reload.generated.js
 node_modules
