@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+  </head>
+  <body>
+    <script type="module">
+      import init, {greet} from './wasm/wasm.js';
+      (async () => {
+        await init();
+        greet("hello!");
+      })();
+    </script>
+  </body>
+</html>

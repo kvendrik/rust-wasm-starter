@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if ! which wasm-pack; then
+  echo "wasm-build is required to build this app. Please check out https://rustwasm.github.io/wasm-pack/book/quickstart.html for instructions on how to install it."
+  exit 1
+fi
+
+yarn install

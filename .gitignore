@@ -1,0 +1,4 @@
+/target
+Cargo.lock
+/static/wasm
+node_modules
