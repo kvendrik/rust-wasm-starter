@@ -1,7 +1,7 @@
 {
-  "name": "create-rust-wasm-app",
+  "name": "rust-wasm-starter",
   "version": "1.0.0",
-  "description": "Create a Rust WASM app in seconds.",
+  "description": "Get started with Rust and WebAssembly in seconds",
   "scripts": {
     "setup": "./setup",
     "server": "node server.mjs",
