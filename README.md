@@ -1,5 +1,7 @@
 # Rust WebAssembly Starter
 
+🏃‍♂️ Get started with Rust and WebAssembly in seconds
+
 ## Quick Start
 
 ```bash
