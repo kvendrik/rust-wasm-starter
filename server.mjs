@@ -52,7 +52,7 @@ app.listen(port);
 logSuccess(`Serving ${staticPath} on *:${port}`);
 
 function buildAppSync() {
-  execSync('yarn build');
+  execSync('yarn build', {stdio: 'inherit'});
 }
 
 function logSuccess(message) {
