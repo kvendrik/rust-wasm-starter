@@ -31,5 +31,5 @@ Or in one line, make sure to change `your-project-name` before running:
 ## Customizing your dev experience
 
 - `PORT=3000 yarn server` allows you to start on a different port
-- `server.mjs` manages the dev experience and is fully customizable. At the top of the file you'll find options for toggling live reload and file watching on/off.
+- `server.mjs` manages the dev experience and is fully customizable. At the top of the file you'll find [various settings](https://github.com/kvendrik/rust-wasm-starter/blob/01d4d77d4b690a80289540053f2f5c2f5685ae3b/server.mjs#L12) that you can toggle on/off.
 - The `build` command can be found in `package.json` and is used to compile the source files. If you update the name of the output directory make sure to also update this name in `server.mjs`.
