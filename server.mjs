@@ -97,30 +97,46 @@ function handleNewWsConnection(ctx, next) {
 
 async function handleHttpRequest(ctx, next) {
   const path = ctx.path;
+  const scriptDirectory = process.cwd();
 
   if (path === '/') {
     const htmlPath = join(staticPath, 'index.html');
+
     if (liveReloadOn) {
-      const indexHtml =
-        readFileSync(htmlPath, 'utf-8')
-        .replace('</body>', `<script>
+      responseWithHtml(htmlPath);
+      return next(ctx);
+    }
+
+    await koaSend(ctx, relative(scriptDirectory, htmlPath));
+    return next(ctx);
+  }
+
+  const requestingHtml = path.includes('.html');
+  const requestedFilePath = join(staticPath, path);
+
+  if (requestingHtml) {
+    responseWithHtml(requestedFilePath);
+    return next(ctx);
+  }
+
+  await koaSend(ctx, relative(scriptDirectory, requestedFilePath));
+  return next(ctx);
+
+  function responseWithHtml(filePath) {
+    const html = insertLiveReloadScriptIntoHtml(readFileSync(filePath, 'utf-8'));
+    ctx.type = 'html';
+    ctx.body = html;
+  }
+}
+
+function insertLiveReloadScriptIntoHtml(html) {
+  return html.replace('</body>', `<script>
 const webSocket = new WebSocket('ws://localhost:${port}');
 webSocket.addEventListener('message', ({data}) => {
   const {action, data: actionData} = JSON.parse(data);
   if (action === 'doReload') location.reload();
   if (action === 'log') console.log(actionData);
 });</script></body>`);
-      ctx.type = 'html';
-      ctx.body = indexHtml;
-    } else {
-      await koaSend(ctx, relative(resolve('./'), htmlPath));
-    }
-    return next(ctx);
-  }
-
-  await koaSend(ctx, relative(resolve('./'), join(staticPath, path)));
-
-  return next(ctx);
 }
 
 function buildAppSync() {
