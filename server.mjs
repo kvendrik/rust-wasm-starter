@@ -51,7 +51,7 @@ if (watchFilesOn) {
       recursive: true,
       filter: watchIncludeTest,
     },
-    handleSourceFileChange
+    handleFileChange
   );
 }
 
@@ -60,7 +60,7 @@ if(openPageOnStart) opn(`http://localhost:${port}`);
 app.listen(port);
 logSuccess(`Serving ${staticPath} on *:${port}`);
 
-function handleSourceFileChange(_, filePath) {
+function handleFileChange(_, filePath) {
   const isSourceFileChange = filePath.includes(srcPath);
   const infoMessage = `${filePath} changed. ${isSourceFileChange ? 'Recompiling' : 'Reloading'}...`;
   logInfo(infoMessage);
