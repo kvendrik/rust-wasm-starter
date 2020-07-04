@@ -12,6 +12,8 @@
   "devDependencies": {
     "chalk": "^4.1.0",
     "koa": "^2.13.0",
+    "koa-router": "^9.1.0",
+    "koa-send": "^5.0.0",
     "koa-static": "^5.0.0",
     "koa-websocket": "^6.0.0",
     "node-watch": "^0.6.4",
