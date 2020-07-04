@@ -6,7 +6,7 @@ import koaSend from 'koa-send';
 import watch from 'node-watch';
 import websockify from 'koa-websocket';
 import chalk from 'chalk';
-import {readFileSync, writeFileSync} from 'fs';
+import {readFileSync} from 'fs';
 import opn from 'opn';
 
 const liveReloadOn = true;
