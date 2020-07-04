@@ -101,14 +101,8 @@ async function handleHttpRequest(ctx, next) {
   const scriptDirectory = process.cwd();
 
   if (path === '/') {
-    const htmlPath = join(staticPath, 'index.html');
-
-    if (liveReloadOn) {
-      responseWithHtml(htmlPath);
-      return next(ctx);
-    }
-
-    await koaSend(ctx, relative(scriptDirectory, htmlPath));
+    const indexPath = join(staticPath, 'index.html');
+    respondWithHtml(indexPath, liveReloadOn);
     return next(ctx);
   }
 
@@ -116,17 +110,18 @@ async function handleHttpRequest(ctx, next) {
   const requestedFilePath = join(staticPath, path);
 
   if (requestingHtml) {
-    responseWithHtml(requestedFilePath);
+    respondWithHtml(requestedFilePath, liveReloadOn);
     return next(ctx);
   }
 
   await koaSend(ctx, relative(scriptDirectory, requestedFilePath));
   return next(ctx);
 
-  function responseWithHtml(filePath) {
-    const html = insertLiveReloadScriptIntoHtml(readFileSync(filePath, 'utf-8'));
+  function respondWithHtml(filePath, insertLiveReloadScript) {
+    const html = readFileSync(filePath, 'utf-8');
+    const finalHtml = insertLiveReloadScript ? insertLiveReloadScriptIntoHtml(html) : html;
     ctx.type = 'html';
-    ctx.body = html;
+    ctx.body = finalHtml;
   }
 }
 
