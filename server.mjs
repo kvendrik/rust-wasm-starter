@@ -11,6 +11,7 @@ import opn from 'opn';
 
 const liveReloadOn = true;
 const watchFilesOn = true;
+const openPageOnStart = true;
 
 // Test that the path of the changed file isn't in the build output path
 // without this an infinite loop will occur when you change a source file
@@ -54,7 +55,7 @@ if (watchFilesOn) {
   );
 }
 
-opn(`http://localhost:${port}`);
+if(openPageOnStart) opn(`http://localhost:${port}`);
 
 app.listen(port);
 logSuccess(`Serving ${staticPath} on *:${port}`);
